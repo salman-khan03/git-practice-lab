@@ -48,26 +48,25 @@ Git Practice Lab
 Notes:
 - Replace <commit-hash> with the actual hash from git log.
 - Use "main" or "master" depending on your repository default.
+Cheat Sheet (common Git workflows)
+1. Daily workflow (must-know)
+	git clone <url>
+	git status
+	git pull --rebase origin main
+	git checkout -b feature/my-task
+	git add <file>
+	git commit -m "feat: short clear message"
+	git push -u origin feature/my-task
 
-1 Daily workflow (must-know)
-git clone <url>
-git status
-git pull --rebase origin main
-git checkout -b feature/my-task
-git add <file>
-git commit -m "feat: short clear message"
-git push -u origin feature/my-task
-
-Inspecting history (very common interview topic)
-bash
-git log --oneline --graph --decorate --all
-git show <commit>
-git diff
-git diff --staged
-git diff main...feature/my-task
-git blame <file>
-git log -p <file>
-git log --follow <file>
+2. Inspecting history (very common interview topic)
+	git log --oneline --graph --decorate --all
+	git show <commit>
+	git diff
+	git diff --staged
+	git diff main...feature/my-task
+	git blame <file>
+	git log -p <file>
+	git log --follow <file>
 
 3 Undoing changes (super important in industry)
 bash
