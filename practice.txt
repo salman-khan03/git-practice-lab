@@ -167,7 +167,7 @@ Day 1 — Basics + Clean Commits
 Practice:
 
 bash
-git clone https://github.com/salman-khan03/git-practice-lab.git
+	git clone <your-repo-url>
 cd git-practice-lab
 git status
 git checkout -b feature/day1
