@@ -48,3 +48,418 @@ Git Practice Lab
 Notes:
 - Replace <commit-hash> with the actual hash from git log.
 - Use "main" or "master" depending on your repository default.
+
+1 Daily workflow (must-know)
+git clone <url>
+git status
+git pull --rebase origin main
+git checkout -b feature/my-task
+git add <file>
+git commit -m "feat: short clear message"
+git push -u origin feature/my-task
+
+Inspecting history (very common interview topic)
+bash
+git log --oneline --graph --decorate --all
+git show <commit>
+git diff
+git diff --staged
+git diff main...feature/my-task
+git blame <file>
+git log -p <file>
+git log --follow <file>
+
+3 Undoing changes (super important in industry)
+bash
+# unstage but keep file edits
+git restore --staged <file>
+
+# discard local edits in working tree
+git restore <file>
+
+# amend previous commit
+git commit --amend
+
+# revert a pushed commit safely
+git revert <commit>
+
+# move HEAD back (careful)
+git reset --soft HEAD~1
+git reset --mixed HEAD~1
+git reset --hard HEAD~1
+
+4 Branching + merging + rebasing
+bash
+git branch
+git branch -a
+git checkout main
+git merge feature/my-task
+git merge --no-ff feature/my-task
+git rebase main
+git rebase -i HEAD~5
+git push --force-with-lease
+
+5 Stash (used a lot during context switching)
+bash
+git stash
+git stash push -m "wip: payment bug"
+git stash list
+git stash show -p stash@{0}
+git stash pop
+git stash apply stash@{0}
+git stash drop stash@{0}
+
+6 Cherry-pick (frequent in hotfix workflows)
+bash
+git cherry-pick <commit>
+git cherry-pick -n <commit>
+git cherry-pick --continue
+git cherry-pick --abort
+
+7 Remote + collaboration essentials
+bash
+git remote -v
+git fetch origin
+git pull --rebase origin main
+git push origin main
+git push origin --delete feature/old-branch
+git branch -vv
+
+8 Tags + releases
+bash
+git tag
+git tag -a v1.2.0 -m "Release v1.2.0"
+git push origin v1.2.0
+git push origin --tags
+git tag -d v1.2.0
+
+9 Conflict resolution flow (industry reality)
+bash
+git pull --rebase origin main
+# resolve conflicts in files
+git add <resolved-files>
+git rebase --continue
+# or
+git merge --continue
+# if needed
+git rebase --abort
+git merge --abort
+
+10 Recovery / safety net (impresses interviewers)
+bash
+git reflog
+git checkout <commit>
+git checkout -b recovery-branch <commit>
+git reset --hard <commit>
+Interview “most asked” commands shortlist (memorize these first)
+git status
+git log --oneline --graph --decorate --all
+git diff / git diff --staged
+git checkout -b <branch> (or git switch -c <branch>)
+git merge and git rebase
+git stash, git stash pop
+git cherry-pick <commit>
+git revert <commit>
+git reset --soft|--mixed|--hard HEAD~1
+git reflog
+git fetch, git pull --rebase, git push --force-with-lease
+git blame <file>
+
+
+Day 1 — Basics + Clean Commits
+Practice:
+
+bash
+git clone https://github.com/salman-khan03/git-practice-lab.git
+cd git-practice-lab
+git status
+git checkout -b feature/day1
+echo "Day1 note" >> docs/exercises.md
+git add docs/exercises.md
+git commit -m "docs: add day1 note"
+git push -u origin feature/day1
+Goal: clean add/commit/push flow.
+
+Day 2 — Diff, Log, Blame
+bash
+git log --oneline --graph --decorate --all
+git show HEAD
+git diff
+git diff --staged
+git blame app/main.txt
+git log -p -- app/main.txt
+Goal: read history confidently.
+
+Day 3 — Branching + Merge + Conflict
+bash
+git checkout main && git pull origin main
+git checkout -b feature/day3-a
+# edit same line in app/main.txt
+git add app/main.txt && git commit -m "feat: day3 A change"
+
+git checkout main
+git checkout -b feature/day3-b
+# edit same line differently
+git add app/main.txt && git commit -m "feat: day3 B change"
+
+git checkout main
+git merge feature/day3-a
+git merge feature/day3-b   # resolve conflict
+git add app/main.txt
+git commit -m "fix: resolve merge conflict day3"
+Goal: conflict resolution without panic.
+
+Day 4 — Rebase + Interactive Rebase
+bash
+git checkout feature/day1
+git rebase main
+git rebase -i HEAD~3
+git push --force-with-lease
+Goal: understand rewritten history.
+
+Day 5 — Stash + Cherry-pick
+bash
+git stash push -m "wip: day5 temp"
+git stash list
+git stash pop
+
+git checkout -b feature/cherry-source
+echo "Cherry source line" >> app/main.txt
+git add app/main.txt && git commit -m "feat: cherry source commit"
+git log --oneline -n 1
+
+git checkout main
+git cherry-pick <commit-hash>
+Goal: context switching + selective commit transfer.
+
+Day 6 — Undo + Recovery
+bash
+git commit --amend -m "feat: corrected message"
+git restore --staged app/main.txt
+git restore app/main.txt
+git revert HEAD
+git reflog
+Goal: safe undo and recovery.
+
+Day 7 — Release + Cleanup + Real Workflow
+bash
+git checkout main && git pull --rebase origin main
+git tag -a v1.0-practice -m "practice release"
+git push origin v1.0-practice
+git branch --merged
+git branch -d feature/day1
+git remote -v
+Goal: release basics + branch hygiene.
+
+50 Git Interview Q&A (Short, practical)
+Difference: Git vs GitHub?
+Git = version control tool; GitHub = hosting/collab platform.
+
+git fetch vs git pull?
+Fetch downloads refs only; pull = fetch + merge/rebase.
+
+merge vs rebase?
+Merge preserves branch graph; rebase rewrites commits linearly.
+
+When to use rebase?
+Before PR to keep feature branch clean.
+
+Why avoid force push on shared branch?
+It rewrites public history; can erase teammates’ commits.
+
+Safer force push command?
+git push --force-with-lease
+
+reset vs revert?
+Reset moves HEAD pointer; revert adds an inverse commit.
+
+Which to undo pushed commit?
+git revert.
+
+--soft, --mixed, --hard reset?
+Soft keeps staged; mixed keeps unstaged; hard discards all.
+
+How to unstage a file?
+git restore --staged <file>
+
+Discard file local edits?
+git restore <file>
+
+See commit graph quickly?
+git log --oneline --graph --decorate --all
+
+Show changes in a commit?
+git show <sha>
+
+Difference staged vs unstaged diff?
+git diff unstaged, git diff --staged staged.
+
+Find who changed a line?
+git blame <file>
+
+Find commit that added a string?
+git log -S "text" -- <file>
+
+What is HEAD?
+Pointer to current checked-out commit/branch tip.
+
+Detached HEAD meaning?
+Checked out commit directly, not branch.
+
+Create and switch branch?
+git checkout -b <branch> (or git switch -c).
+
+Delete local branch?
+git branch -d <branch>
+
+Force delete local branch?
+git branch -D <branch>
+
+Delete remote branch?
+git push origin --delete <branch>
+
+Track remote branch on push?
+git push -u origin <branch>
+
+Rename branch locally?
+git branch -m old new
+
+Rename branch remotely?
+Push new, delete old, set upstream.
+
+What is stash?
+Temporary shelf for uncommitted work.
+
+Stash with message?
+git stash push -m "msg"
+
+List stashes?
+git stash list
+
+Apply vs pop stash?
+Apply keeps stash; pop applies + removes stash.
+
+What is cherry-pick?
+Apply specific commit(s) from another branch.
+
+Cherry-pick multiple commits?
+git cherry-pick <sha1> <sha2>
+
+Abort rebase?
+git rebase --abort
+
+Continue rebase after conflict?
+Resolve, git add, then git rebase --continue
+
+Abort merge?
+git merge --abort
+
+What is .gitignore?
+Defines untracked files Git should ignore.
+
+Track empty directories?
+Git doesn’t; use .gitkeep placeholder.
+
+What is fast-forward merge?
+Branch pointer moves forward without merge commit.
+
+How force merge commit always?
+git merge --no-ff <branch>
+
+What is interactive rebase used for?
+Squash/reword/reorder/drop commits.
+
+Squash last 3 commits?
+git rebase -i HEAD~3
+
+Recover lost commit after hard reset?
+Find via git reflog, then checkout/reset to SHA.
+
+Show remotes?
+git remote -v
+
+Change remote URL?
+git remote set-url origin <new-url>
+
+List tags?
+git tag
+
+Annotated tag command?
+git tag -a v1.0 -m "msg"
+
+Push tags?
+git push origin --tags
+
+Clone specific branch?
+git clone -b <branch> <url>
+
+One commit, forgot file—what now?
+git add <file> && git commit --amend
+
+Keep repo updated while on feature branch?
+git fetch origin && git rebase origin/main
+
+Best commit message style?
+Short imperative + scope (e.g., feat(auth): add refresh token flow).
+
+Test
+1) Clone + enter repo
+Clone the repo and move into it.
+
+2) Check branch + sync
+Make sure you are on main and fully up to date.
+
+3) Create feature branch
+Create and switch to: feature/test-1.
+
+4) Edit and commit one file
+Append one line to app/main.txt and commit with: feat: task 4 update main
+
+5) Push with upstream
+Push feature/test-1 and set upstream.
+
+6) Show compact graph history
+Run one command to view all branches in graph form.
+
+7) Create second commit
+Append one line to docs/exercises.md and commit: docs: task 7 add note
+
+8) Amend latest commit message
+Change commit message to: docs: task 7 add practice note
+
+9) Unstage without losing changes
+Modify data/sample.csv, stage it, then unstage it (keep file edited).
+
+10) Stash work
+Stash the current uncommitted changes with message: wip: task10 csv edit
+
+11) Apply stash back
+Bring stashed changes back to working tree (and remove stash entry).
+
+12) Commit restored stash changes
+Commit CSV changes: chore: task 12 update sample data
+
+13) Rebase feature branch on latest main
+Rebase your current branch onto main.
+
+14) Create cherry-pick source branch
+From main, create feature/cherry-source-2, edit app/config.env.example, commit: feat: task 14 config update
+
+15) Cherry-pick into main
+Cherry-pick that commit onto main.
+
+16) Revert the cherry-picked commit
+On main, revert the last commit safely.
+
+17) Recover commit hash with reflog
+Use reflog to find the reverted commit hash and show it.
+
+18) Create annotated tag
+Create tag: v2.0-practice with message: Practice milestone v2
+
+19) Push branch + tag
+Push main and push tags.
+
+20) Delete merged local practice branch
+Delete feature/test-1 locally (safe delete, not force).
+
