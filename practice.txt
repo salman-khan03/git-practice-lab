@@ -68,25 +68,23 @@ Cheat Sheet (common Git workflows)
 	git log -p <file>
 	git log --follow <file>
 
-3 Undoing changes (super important in industry)
-bash
-# unstage but keep file edits
-git restore --staged <file>
+3. Undoing changes (super important in industry)
+	# unstage but keep file edits
+	git restore --staged <file>
 
-# discard local edits in working tree
-git restore <file>
+	# discard local edits in working tree
+	git restore <file>
 
-# amend previous commit
-git commit --amend
+	# amend previous commit
+	git commit --amend
 
-# revert a pushed commit safely
-git revert <commit>
+	# revert a pushed commit safely
+	git revert <commit>
 
-# move HEAD back (careful)
-git reset --soft HEAD~1
-git reset --mixed HEAD~1
-git reset --hard HEAD~1
-
+	# move HEAD back (careful)
+	git reset --soft HEAD~1
+	git reset --mixed HEAD~1
+	git reset --hard HEAD~1
 4 Branching + merging + rebasing
 bash
 git branch
