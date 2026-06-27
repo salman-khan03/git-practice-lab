@@ -289,7 +289,7 @@ Show changes in a commit?
 git show <sha>
 
 Difference staged vs unstaged diff?
-git diff unstaged, git diff --staged staged.
+git diff shows unstaged changes; git diff --staged shows staged changes.
 
 Find who changed a line?
 git blame <file>
